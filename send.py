@@ -15,19 +15,11 @@ Cukup Rp 250.000 per post aja
 Cocok banget buat boost authority & ranking website kamu 🚀
 
 Langsung order atau tanya detail ke @karyaonedigital"""
-
 url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 for group_name, chat_id in GROUPS.items():
     response = requests.post(
         url,
-        data={
-            "chat_id": chat_id,
-            "text": MESSAGE
-        }
+        data={"chat_id": chat_id, "text": MESSAGE}
     )
-
-    if response.status_code == 200:
-        print(f"Berhasil kirim ke {group_name}")
-    else:
-        print(f"Gagal kirim ke {group_name}: {response.text}")
+    print(group_name, response.status_code)
