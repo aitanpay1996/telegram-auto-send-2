@@ -1,8 +1,9 @@
 import requests
 import os
+import json
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
-CHAT_IDS = os.environ["CHAT_IDS"].split(",")
+GROUPS = json.loads(os.environ["GROUPS_JSON"])
 
 MESSAGE = """High-Quality Guestpost Available 🔥
 
@@ -17,11 +18,16 @@ Langsung order atau tanya detail ke @karyaonedigital"""
 
 url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-for chat_id in CHAT_IDS:
-    requests.post(
+for group_name, chat_id in GROUPS.items():
+    response = requests.post(
         url,
         data={
-            "chat_id": chat_id.strip(),
+            "chat_id": chat_id,
             "text": MESSAGE
         }
     )
+
+    if response.status_code == 200:
+        print(f"Berhasil kirim ke {group_name}")
+    else:
+        print(f"Gagal kirim ke {group_name}: {response.text}")
