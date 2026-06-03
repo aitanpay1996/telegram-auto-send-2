@@ -2,7 +2,7 @@ import requests
 import os
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
-CHAT_ID = os.environ["CHAT_ID"]
+CHAT_IDS = os.environ["CHAT_IDS"].split(",")
 
 MESSAGE = """High-Quality Guestpost Available 🔥
 
@@ -17,10 +17,11 @@ Langsung order atau tanya detail ke @karyaonedigital"""
 
 url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-requests.post(
-    url,
-    data={
-        "chat_id": CHAT_ID,
-        "text": MESSAGE
-    }
-)
+for chat_id in CHAT_IDS:
+    requests.post(
+        url,
+        data={
+            "chat_id": chat_id.strip(),
+            "text": MESSAGE
+        }
+    )
